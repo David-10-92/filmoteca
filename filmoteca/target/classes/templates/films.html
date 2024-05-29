@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de películas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
+    <div class="mb-3">
+        <a th:href="@{/register}" class="btn btn-secondary">Registrarse</a>
+        <a th:href="@{/login}" class="btn btn-secondary">Login</a>
+    </div>
+    <sec:authorize access="hasRole('ADMIN')">
+        <a th:href="@{/films/addFilm}" class="btn btn-success mb-4">Añadir Película</a>
+    </sec:authorize>
+
+    <h1 class="text-center mb-4">Listado de películas</h1>
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="film : ${films}">
+            <div class="card">
+                <a th:href="@{'/films/details/' + ${film.id}}">
+                    <img th:src="@{'/uploads/' + ${film.image}}" class="card-img-top" alt="Imagen de la película" />
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${film.title}"></h5>
+                    <p class="card-text" th:text="${film.date}"></p>
+
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <form th:action="@{/films/deleteFilm}" method="post" class="d-inline">
+                            <input type="hidden" name="id" th:value="${film.id}" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                        <a th:href="@{'/films/updateFilm/' + ${film.id}}" class="btn btn-primary">Editar Película</a>
+                    </sec:authorize>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Paginador -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:if="${currentPage != 0}">
+                <a class="page-link" th:href="@{|/films?page=0&size=${films.getSize()}|}">Primera</a>
+            </li>
+            <li class="page-item" th:if="${films.hasPrevious()}">
+                <a class="page-link" th:href="@{|/films?page=${currentPage - 1}&size=${films.getSize()}|}">Anterior</a>
+            </li>
+            <li class="page-item" th:if="${films.hasNext()}">
+                <a class="page-link" th:href="@{|/films?page=${currentPage + 1}&size=${films.getSize()}|}">Siguiente</a>
+            </li>
+            <li class="page-item" th:if="${currentPage != films.getTotalPages() - 1}">
+                <a class="page-link" th:href="@{|/films?page=${films.getTotalPages() - 1}&size=${films.getSize()}|}">Última</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
