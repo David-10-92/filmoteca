@@ -21,9 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    /*@Autowired
-    private final CustomUserDetailsService userDetailsService;*/
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -34,38 +31,14 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()) // Permitir acceso a la página de login sin autenticación
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login").permitAll()); // Redirigir a la página de login después de cerrar sesión
+                        .logoutSuccessUrl("/films?logout").permitAll()); // Redirigir a la página de login después de cerrar sesión
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /*@Bean
-    public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder){
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-        return authenticationProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new CustomPasswordEncode();
-    }*/
-
-
 
 }

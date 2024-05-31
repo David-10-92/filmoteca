@@ -26,18 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado " + email));
-
-        // Verificar si la contraseña ingresada coincide con la almacenada en la base de datos
-        String storedPassword = user.getPassword();
-        boolean passwordMatches = passwordEncoder.matches(user.getPassword(), storedPassword);
-
-        if (!passwordMatches) {
-            throw new BadCredentialsException("Credenciales inválidas"); // Otra excepción puede ser lanzada aquí, dependiendo de tu lógica de manejo de errores
-        }
-
-        // Si la contraseña es correcta, crear UserDetails y devolverlo
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole()))
+        );
     }
 }

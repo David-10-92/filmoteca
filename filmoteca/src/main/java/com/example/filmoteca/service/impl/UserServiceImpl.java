@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userLogin.getEmail());
         user.setPassword(passwordEncoder.encode(userLogin.getPassword())); // Codificar la contraseña
-        user.setRole("ADMIN"); // Asignar el rol
+        user.setRole(userLogin.getRole()); // Asignar el rol
 
         userRepository.save(user);
         return "Usuario creado correctamente";

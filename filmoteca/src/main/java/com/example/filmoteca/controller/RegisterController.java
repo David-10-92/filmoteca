@@ -26,10 +26,11 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String email, @RequestParam String password, RedirectAttributes redirectAttributes) {
+    public String registerUser(@RequestParam String email, @RequestParam String password,@RequestParam String role, RedirectAttributes redirectAttributes) {
         UserLogin userLogin = new UserLogin();
         userLogin.setEmail(email);
         userLogin.setPassword(password);
+        userLogin.setRole(role);
 
         String result = userService.addUser(userLogin);
         redirectAttributes.addFlashAttribute("message", result);
