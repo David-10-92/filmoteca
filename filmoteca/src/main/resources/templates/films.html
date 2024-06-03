@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,15 +23,15 @@
         </div>
 
         <!-- Botón de cierre de sesión, visible solo si el usuario está autenticado -->
-        <sec:authorize access="isAuthenticated()">
+        <div sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-danger">Cerrar sesión</button>
             </form>
-        </sec:authorize>
+        </div>
     </div>
-    <sec:authorize access="hasRole('ADMIN')">
+    <div sec:authorize="hasRole('ADMIN')">
         <a th:href="@{/films/addFilm}" class="btn btn-success mb-4">Añadir Película</a>
-    </sec:authorize>
+    </div>
 
     <h1 class="text-center mb-4">Listado de películas</h1>
     <div class="row">
@@ -44,13 +44,13 @@
                     <h5 class="card-title" th:text="${film.title}"></h5>
                     <p class="card-text" th:text="${film.date}"></p>
 
-                    <sec:authorize access="hasRole('ADMIN')">
+                    <div sec:authorize ="hasRole('ADMIN')">
                         <form th:action="@{/films/deleteFilm}" method="post" class="d-inline">
                             <input type="hidden" name="id" th:value="${film.id}" />
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                         <a th:href="@{'/films/updateFilm/' + ${film.id}}" class="btn btn-primary">Editar Película</a>
-                    </sec:authorize>
+                    </div>
                 </div>
             </div>
         </div>
