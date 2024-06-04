@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/films/addFilm", "/films/updateFilm/**", "/films/deleteFilm").hasAuthority("ADMIN") // Requiere rol ADMIN para añadir, actualizar o eliminar película
+                        .requestMatchers("/films/addFilm", "/films/updateFilm/**", "/films/deleteFilm").hasAuthority("ROLE_ADMIN") // Requiere rol ADMIN para añadir, actualizar o eliminar película
                         .requestMatchers("/**").permitAll() // Permitir acceso a todas las demás rutas sin autenticación
                         .anyRequest().authenticated()) // Cualquier otra solicitud requiere autenticación
                 .formLogin(form -> form

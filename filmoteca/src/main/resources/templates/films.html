@@ -29,7 +29,7 @@
             </form>
         </div>
     </div>
-    <div sec:authorize="hasRole('ADMIN')">
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
         <a th:href="@{/films/addFilm}" class="btn btn-success mb-4">Añadir Película</a>
     </div>
 
@@ -44,7 +44,7 @@
                     <h5 class="card-title" th:text="${film.title}"></h5>
                     <p class="card-text" th:text="${film.date}"></p>
 
-                    <div sec:authorize ="hasRole('ADMIN')">
+                    <div sec:authorize ="hasRole('ROLE_ADMIN')">
                         <form th:action="@{/films/deleteFilm}" method="post" class="d-inline">
                             <input type="hidden" name="id" th:value="${film.id}" />
                             <button type="submit" class="btn btn-danger">Eliminar</button>
