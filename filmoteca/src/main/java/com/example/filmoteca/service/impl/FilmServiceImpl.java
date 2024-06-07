@@ -36,7 +36,7 @@ public class FilmServiceImpl  implements FilmService {
         }
     }
 
-    public FilmDetails createFilmDetails(Film film){
+    private FilmDetails createFilmDetails(Film film){
         FilmDetails filmDetails = new FilmDetails();
         filmDetails.setImage(film.getImage());
         filmDetails.setTitle(film.getTitle());

@@ -1,5 +1,6 @@
 package com.example.filmoteca.controller;
 
+import com.example.filmoteca.dtos.RegisterUser;
 import com.example.filmoteca.dtos.UserLogin;
 import com.example.filmoteca.models.User;
 import com.example.filmoteca.repository.UserRepository;
@@ -26,16 +27,14 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String email, @RequestParam String password,@RequestParam String role, RedirectAttributes redirectAttributes) {
+    public String registerUser(RegisterUser registerUser, RedirectAttributes redirectAttributes) {
         UserLogin userLogin = new UserLogin();
-        userLogin.setEmail(email);
-        userLogin.setPassword(password);
-        userLogin.setRole(role);
-
+        userLogin.setEmail(registerUser.getEmail());
+        userLogin.setPassword(registerUser.getPassword());
+        userLogin.setRole(registerUser.getRole());
         String result = userService.addUser(userLogin);
         redirectAttributes.addFlashAttribute("message", result);
-
-        return "redirect:/films";
+        return "login";
     }
 
     @GetMapping("/login")

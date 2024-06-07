@@ -37,7 +37,7 @@ public class FilmController {
 
     @GetMapping("/details/{id}")
     public String filmDetails(@PathVariable("id") Integer id, Model model) {
-        Film film = filmRepository.getFilmById(id);
+        FilmDetails film = filmService.getFilm(id);
         model.addAttribute("film", film);
         return "filmDetails";
     }
@@ -54,20 +54,18 @@ public class FilmController {
 
     @GetMapping("/updateFilm/{id}")
     public String viewUpdatePage(@PathVariable("id") Integer id, Model model) {
-        Film film = filmRepository.getFilmById(id);
+        FilmDetails film = filmService.getFilm(id);
         model.addAttribute("filmInput", film);
         return "updateFilm";
     }
 
-    @PostMapping("/updateFilm")
-    public String updateFilm(@RequestParam("id") Integer id, @ModelAttribute("filmInput") FilmInput filmInput,Model model) {
+    @RequestMapping("/updateFilm")
+    public String updateFilm(@RequestParam("id") Integer id, @ModelAttribute("filmInput") FilmInput filmInput) {
         filmService.updateFilm(id,filmInput);
         return "redirect:/films";
     }
 
-
-    @PostMapping("/deleteFilm")
-    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/deleteFilm")
     public String deleteFilm(@RequestParam("id") Integer id){
         filmService.deleteFilm(id);
         return "redirect:/films";
