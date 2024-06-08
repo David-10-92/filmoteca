@@ -56,22 +56,17 @@ public class FilmServiceImpl  implements FilmService {
     }
 
     @Override
-    public String addFilm(FilmInput filmInput) {
-        if (filmInput.getTitle() == null || filmInput.getTitle().isEmpty() ||
-                filmInput.getImage() == null || filmInput.getImage().isEmpty() ||
-                filmInput.getDate() <= 0) {
-            return "Los parámetros no pueden estar vacíos o ser nulos";
-        }
+    public Film addFilm(FilmInput filmInput) {
         Film film = new Film();
         film.setImage(filmInput.getImage());
         film.setTitle(filmInput.getTitle());
         film.setDate(filmInput.getDate());
         filmRepository.save(film);
-        return "Pelicula creada correctamente";
+        return film;
     }
 
     @Override
-    public String updateFilm(int id, FilmInput filmInput) {
+    public Film updateFilm(int id, FilmInput filmInput) {
         Optional<Film> optionalFilm = filmRepository.findById(id);
         if(optionalFilm.isPresent()){
             Film existFilm = optionalFilm.get();
@@ -85,19 +80,19 @@ public class FilmServiceImpl  implements FilmService {
                 existFilm.setDate(filmInput.getDate());
             }
             filmRepository.save(existFilm);
-            return "Pelicula modificada correctamente";
+            return existFilm;
         }else {
             throw new ServiceError(ErrorCode.RESOURCE_NOT_FOUND, "No se encontró la pelicula con el ID proporcionado");
         }
     }
 
     @Override
-    public String deleteFilm(int id) {
+    public Film deleteFilm(int id) {
         Optional<Film> optionalFilm = filmRepository.findById(id);
         if(optionalFilm.isPresent()){
             Film existFilm = optionalFilm.get();
             filmRepository.delete(existFilm);
-            return "Pelicula eliminada correctamente";
+            return existFilm;
         }else {
             throw new ServiceError(ErrorCode.RESOURCE_NOT_FOUND, "No se encontró la pelicula con el ID proporcionado");
         }

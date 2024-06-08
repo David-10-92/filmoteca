@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Optional;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/users")
 public class RegisterController {
 
     @Autowired

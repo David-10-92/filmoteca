@@ -29,7 +29,8 @@ public class SecurityConfig {
                         .requestMatchers("/**").permitAll() // Permitir acceso a todas las demás rutas sin autenticación
                         .anyRequest().authenticated()) // Cualquier otra solicitud requiere autenticación
                 .formLogin(form -> form
-                        .loginPage("/login").permitAll()) // Permitir acceso a la página de login sin autenticación
+                        .loginPage("/users/login").permitAll()
+                        .defaultSuccessUrl("/films", true)) // Permitir acceso a la página de login sin autenticación
                 .logout(logout -> logout
                         .logoutSuccessUrl("/films?logout").permitAll()); // Redirigir a la página de login después de cerrar sesión
         return http.build();

@@ -10,7 +10,7 @@ import java.util.List;
 public interface FilmService {
     FilmDetails getFilm(int id);
     Page<FilmDetails> listFilms(int page, int size);
-    String addFilm(FilmInput filmInput);
-    String updateFilm(int id, FilmInput filmInput);
-    String deleteFilm(int id);
+    Film addFilm(FilmInput filmInput);
+    Film updateFilm(int id, FilmInput filmInput);
+    Film deleteFilm(int id);
 }
